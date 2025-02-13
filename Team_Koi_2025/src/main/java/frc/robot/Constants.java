@@ -16,4 +16,10 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+  public static class DeliveryCatchSubsystemConstants {
+    public static final int motorId = 1; //temp num
+    public static final double power = 0.5;
+    public static final double releasePower = -0.1;
+    public static final double idlePower = 0.1;
+  }
 }
