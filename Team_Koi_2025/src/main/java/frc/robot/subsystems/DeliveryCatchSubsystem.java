@@ -1,8 +1,9 @@
-package frc.robot.subsystems.DeliveryCatchSubsystem;
+package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class DeliveryCatchSubsystem extends SubsystemBase {
   // Declare vortex
@@ -10,22 +11,17 @@ public class DeliveryCatchSubsystem extends SubsystemBase {
 
   public DeliveryCatchSubsystem() {
     // Set Vortex
-    Vortex = new CANSparkMax(DeliveryCatchSubsystemConstants.DEVICE_ID, MotorType.kBrushless);
+    Vortex = new CANSparkMax(Constants.DeliveryCatchSubsystemConstants.DEVICE_ID, MotorType.kBrushless);
     Vortex.restoreFactoryDefaults();
   }
 
   // Starts the grabbing motor
-  public void grab() {
-    Vortex.set(DeliveryCatchSubsystemConstants.POWER);
-  }
-
-  // Reverses the grabbing motor, it should hopefully release the grabbed item
-  public void release() {
-    Vortex.set(-DeliveryCatchSubsystemConstants.POWER);
+  public void work(int power) {
+    Vortex.set(power);
   }
 
   // Stops the motor when the buttons are released
-  public void stop() {
-    Vortex.set(0);
+  public void idle() {
+    Vortex.set(Constants.DeliveryCatchSubsystemConstants.idlePower);
   }
 }
