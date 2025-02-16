@@ -20,7 +20,6 @@ public class ReleaseGamePieceCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        deliveryCatchSubsystem.powerEngine(Constants.DeliveryCatchSubsystemConstants.idlePower, true); // Stops motor when command ends
-
+        deliveryCatchSubsystem.powerEngine(0, true); // Stops motor when released, 0 = no power
     }
 }

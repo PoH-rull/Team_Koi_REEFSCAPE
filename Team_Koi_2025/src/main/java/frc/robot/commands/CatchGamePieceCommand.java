@@ -20,6 +20,6 @@ public class CatchGamePieceCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        ddeliveryCatchSubsystem.powerEngine(Constants.DeliveryCatchSubsystemConstants.idlePower, true); // Stops motor when command ends
+        deliveryCatchSubsystem.powerEngine(Constants.DeliveryCatchSubsystemConstants.idlePower, true); // moves motor to idle power
     }
 }
