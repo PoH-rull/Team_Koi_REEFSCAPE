@@ -7,17 +7,17 @@ import frc.robot.Constants;
 
 public class DeliveryCatchSubsystem extends SubsystemBase {
   // Declare vortex
-  private SparkFlex Vortex;
+  public SparkMax Vortex;
 
   public DeliveryCatchSubsystem() {
     // Set Vortex
-    Vortex = new SparkFlex(Constants.DeliveryCatchSubsystemConstants.DEVICE_ID, MotorType.kBrushless);
+    Vortex = new SparkMax(Constants.DeliveryCatchSubsystemConstants.DEVICE_ID, MotorType.kBrushless);
     Vortex.restoreFactoryDefaults();
   }
 
   // Starts the grabbing motor
-  public void powerEngine(int power, boolean powerDir) { //power - voltage precentage, powerDir - true=positive false=negative
-    Vortex.inverted(!powerDir); // set power direcation acording to parameters
+  public void powerEngine(int power, int powerDir) { //power - voltage precentage, powerDir - true=positive false=negative
+    if (powerDir != null) Vortex.inverted(powerDir < 0); // set power direcation acording to parameters
     Vortex.setVoltage(power); // set voltage to power the engine
   }
 }

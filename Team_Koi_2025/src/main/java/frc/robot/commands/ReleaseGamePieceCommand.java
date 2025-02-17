@@ -15,11 +15,11 @@ public class ReleaseGamePieceCommand extends CommandBase {
 
     @Override
     public void execute() {
-        deliveryCatchSubsystem.powerEngine(Constants.DeliveryCatchSubsystemConstants.releasePower, false); // power the engine positively
+        deliveryCatchSubsystem.powerEngine(Constants.DeliveryCatchSubsystemConstants.releasePower, -1); // power the engine positively
     }
 
     @Override
     public void end(boolean interrupted) {
-        deliveryCatchSubsystem.powerEngine(0, true); // Stops motor when released, 0 = no power
+        deliveryCatchSubsystem.Vortex.stopMotor();
     }
 }

@@ -15,11 +15,11 @@ public class CatchGamePieceCommand extends CommandBase {
 
     @Override
     public void execute() {
-        deliveryCatchSubsystem.powerEngine(Constants.DeliveryCatchSubsystemConstants.power, true); // power the engine positively
+        deliveryCatchSubsystem.powerEngine(Constants.DeliveryCatchSubsystemConstants.power, 1); // power the engine positively
     }
 
     @Override
     public void end(boolean interrupted) {
-        deliveryCatchSubsystem.powerEngine(Constants.DeliveryCatchSubsystemConstants.idlePower, true); // moves motor to idle power
+        deliveryCatchSubsystem.powerEngine(Constants.DeliveryCatchSubsystemConstants.idlePower, 1); // moves motor to idle power
     }
 }
