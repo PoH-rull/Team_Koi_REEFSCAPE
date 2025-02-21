@@ -18,7 +18,7 @@ import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 
 import frc.robot.Constants;
-import frc.robot.commands.ElevatorCommand;
+import frc.robot.commands.ElevatorUpCommand;
 
 public class ElevatorSubsystem extends SubsystemBase{
     private final SparkMax motor; // motor yay
@@ -26,10 +26,10 @@ public class ElevatorSubsystem extends SubsystemBase{
     private final ArmFeedforward feedforward = new ArmFeedforward(Constants.ElevatorFeedforwardConstants.kS, Constants.ElevatorFeedforwardConstants.kG, Constants.ElevatorFeedforwardConstants.kV, Constants.ElevatorFeedforwardConstants.kA);
     private int radians = 0;
 
-    public ElevatorSubsystem(DoubleSupplier speedSupplier){
+    public ElevatorSubsystem(){
        this.config = new SparkMaxConfig();
        this.motor = new SparkMax(Constants.ElevatorConstants.ELEVATE_MOTOR_ID, MotorType.kBrushless);
-       setDefaultCommand(new ElevatorCommand(this, speedSupplier));
+       setDefaultCommand(new ElevatorUpCommand(this));
 
        config.idleMode(IdleMode.kBrake);
        config.encoder
