@@ -42,6 +42,9 @@ public final class Constants {
     public static final int ELEVATOR_START_POSITION = 0;
     public static final int ELEVATOR_END_POSITION = 0;
     public static final double ELEVATOR_SPEED = 10;
+    public static final double FULL_CIRCLE = 360;
+    public static final int ELEVATOR_CONVERTION_FACTOR = 1000;
+    public static final int[] CHANNEL = {0,1};
   }
 
   public static class ElevatorPIDConstants{

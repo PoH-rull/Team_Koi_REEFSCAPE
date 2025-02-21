@@ -35,6 +35,6 @@ public class ElevatorDownCommand extends Command {
 
   @Override
   public boolean isFinished() {
-    return false;
+    return m_subsystem.finish();
   }
 }
