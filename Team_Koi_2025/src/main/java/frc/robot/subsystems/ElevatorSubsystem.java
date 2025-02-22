@@ -22,18 +22,21 @@ import frc.robot.commands.ElevatorUpCommand;
 public class ElevatorSubsystem extends SubsystemBase{
     private final SparkMax motor; // motor yay
     private final SparkMaxConfig config; // it has the pid and the encoder (probably (I think))
-    private final ArmFeedforward feedforward = new ArmFeedforward(Constants.ElevatorFeedforwardConstants.kS, Constants.ElevatorFeedforwardConstants.kG, Constants.ElevatorFeedforwardConstants.kV, Constants.ElevatorFeedforwardConstants.kA);
-    private Encoder encoder;
+    private final ArmFeedforward feedforward = new ArmFeedforward(Constants.ElevatorFeedforwardConstants.kS,
+                                                                  Constants.ElevatorFeedforwardConstants.kG, 
+                                                                  Constants.ElevatorFeedforwardConstants.kV, 
+                                                                  Constants.ElevatorFeedforwardConstants.kA);
     private double radians = 0;
 
     public ElevatorSubsystem(){
        this.config = new SparkMaxConfig();
        this.motor = new SparkMax(Constants.ElevatorConstants.ELEVATE_MOTOR_ID, MotorType.kBrushless);
-       this.encoder = new Encoder(Constants.ElevatorConstants.CHANNEL[0], Constants.ElevatorConstants.CHANNEL[1]);
-       this.encoder.setDistancePerPulse(Constants.ElevatorConstants.ELEVATOR_CONVERTION_FACTOR);
        setDefaultCommand(new ElevatorUpCommand(this));
 
        config.idleMode(IdleMode.kBrake);
+       config.encoder
+            .positionConversionFactor(Constants.ElevatorConstants.ELEVATOR_CONVERTION_FACTOR)
+            .velocityConversionFactor(Constants.ElevatorConstants.ELEVATOR_CONVERTION_FACTOR);
         config.closedLoop
             .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
             .pid(Constants.ElevatorPIDConstants.kP, Constants.ElevatorPIDConstants.kI, Constants.ElevatorPIDConstants.kD);
@@ -48,13 +51,12 @@ public class ElevatorSubsystem extends SubsystemBase{
 
     // sets a velocity to the motor (I have no idea how to make a limit for it, I am gusseing we will just fuck around and find out(not really))
     public void setTargetVelocity(double targetVelocity) {
-        // if(motor.getEncoder().getPosition() == Constants.ElevatorConstants.ELEVATOR_END_POSITION && targetVelocity > 0){
-        //     return;
-        // } else if(motor.getEncoder().getPosition() == Constants.ElevatorConstants.ELEVATOR_START_POSITION && targetVelocity < 0){
-        //     return;
-        // }   
-        // radians = Math.toRadians(motor.getEncoder().getPosition() * Constants.ElevatorConstants.FULL_CIRCLE);
-        radians = Math.toRadians(encoder.getDistance() * Constants.ElevatorConstants.FULL_CIRCLE);
+        if(motor.getEncoder().getPosition() == Constants.ElevatorConstants.ELEVATOR_END_POSITION && targetVelocity > 0){
+            return;
+        } else if(motor.getEncoder().getPosition() == Constants.ElevatorConstants.ELEVATOR_START_POSITION && targetVelocity < 0){
+            return;
+        }   
+        radians = Math.toRadians(motor.getEncoder().getPosition() * Constants.ElevatorConstants.FULL_CIRCLE);
         motor.getClosedLoopController().setReference(feedforward.calculate(radians ,targetVelocity), ControlType.kVelocity);
     }
 
