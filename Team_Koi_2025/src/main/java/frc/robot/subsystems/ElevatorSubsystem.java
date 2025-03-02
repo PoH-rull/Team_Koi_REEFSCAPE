@@ -4,7 +4,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
-import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
@@ -27,6 +27,9 @@ public class ElevatorSubsystem extends SubsystemBase{
                                                                   Constants.ElevatorFeedforwardConstants.kV, 
                                                                   Constants.ElevatorFeedforwardConstants.kA);
     private double radians = 0;
+    private DutyCycleEncoder encoder = new DutyCycleEncoder(Constants.ElevatorConstants.ELEVATOR_DUTYCYCLE_CHANNEL, 
+                                                            Constants.ElevatorConstants.ELEVATOR_END_POSITION,
+                                                            Constants.ElevatorConstants.ELEVATOR_START_POSITION); // I think this is how it is supposed to be, I am not sure so don't flame me :')
 
     public ElevatorSubsystem(){
        this.config = new SparkMaxConfig();
@@ -34,9 +37,6 @@ public class ElevatorSubsystem extends SubsystemBase{
        setDefaultCommand(new ElevatorUpCommand(this));
 
        config.idleMode(IdleMode.kBrake);
-       config.encoder
-            .positionConversionFactor(Constants.ElevatorConstants.ELEVATOR_CONVERTION_FACTOR)
-            .velocityConversionFactor(Constants.ElevatorConstants.ELEVATOR_CONVERTION_FACTOR);
         config.closedLoop
             .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
             .pid(Constants.ElevatorPIDConstants.kP, Constants.ElevatorPIDConstants.kI, Constants.ElevatorPIDConstants.kD);
@@ -51,12 +51,13 @@ public class ElevatorSubsystem extends SubsystemBase{
 
     // sets a velocity to the motor (I have no idea how to make a limit for it, I am gusseing we will just fuck around and find out(not really))
     public void setTargetVelocity(double targetVelocity) {
-        if(motor.getEncoder().getPosition() == Constants.ElevatorConstants.ELEVATOR_END_POSITION && targetVelocity > 0){
+        if(encoder.get() == Constants.ElevatorConstants.ELEVATOR_END_POSITION && targetVelocity > 0){
             return;
-        } else if(motor.getEncoder().getPosition() == Constants.ElevatorConstants.ELEVATOR_START_POSITION && targetVelocity < 0){
+        } else if(encoder.get() == Constants.ElevatorConstants.ELEVATOR_START_POSITION && targetVelocity < 0){
             return;
         }   
-        radians = Math.toRadians(motor.getEncoder().getPosition() * Constants.ElevatorConstants.FULL_CIRCLE);
+        encoder.get();
+        radians = Math.toRadians(encoder.get() * Constants.ElevatorConstants.FULL_CIRCLE);
         motor.getClosedLoopController().setReference(feedforward.calculate(radians ,targetVelocity), ControlType.kVelocity);
     }
 
@@ -65,6 +66,6 @@ public class ElevatorSubsystem extends SubsystemBase{
     }
 
     public boolean finish(){
-        return motor.getEncoder().getPosition() == Constants.ElevatorConstants.ELEVATOR_START_POSITION;
+        return encoder.get() == Constants.ElevatorConstants.ELEVATOR_START_POSITION;
     }
 }
