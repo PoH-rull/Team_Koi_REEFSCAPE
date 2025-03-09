@@ -1,10 +1,10 @@
 {
   "location": {
-    "front": 86.61417314,
-    "left": 145.6692912
+    "front": 15.1574803,
+    "left": 8.81889764
   },
-  "absoluteEncoderOffset": 0.207275,
-  "drive": {
+    "absoluteEncoderOffset":75.41028,
+    "drive": {
     "type": "sparkflex_vortex",
     "id": 3,
     "canbus": "rio"

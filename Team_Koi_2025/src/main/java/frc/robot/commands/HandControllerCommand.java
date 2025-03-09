@@ -1,8 +1,7 @@
 package frc.robot.commands;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.RobotHandSubsystem;
-
+import frc.robot.Constants;
 import frc.robot.Constants.RobotHandConstants;;
 
 public class HandControllerCommand extends Command {
@@ -18,7 +17,7 @@ public class HandControllerCommand extends Command {
     
     @Override
     public void execute(){
-        m_HandSubsystem.powerHand(exec_dir > 0 ? RobotHandConstants.GRAB_POWER : RobotHandConstants.RELEASE_POWER , exec_dir); //Apply grabbing power positively
+        m_HandSubsystem.powerHand(exec_dir, end_dir); //Apply grabbing power positively
     }
 
     @Override

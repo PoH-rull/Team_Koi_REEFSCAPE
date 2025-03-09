@@ -17,9 +17,14 @@ import swervelib.math.Matter;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  public static final double ROBOT_MASS = 81 * 0.453592; // 32lbs * kg per pound
+  public static final Matter CHASSIS    = new Matter(new Translation3d(0, 0,Units.inchesToMeters(8)),ROBOT_MASS);
+  public static final double LOOP_TIME  = 0.13; //s, 20ms + 110ms sprk max velocity lag
+  public static final double MAX_SPEED  = Units.feetToMeters(14.5);
+
     public static class OperatorConstants {
         public static final int kDriverControllerPort = 0;
-        public static final double DEADBAND        = 0.1;
+        public static final double DEADBAND        = 0.3;
         public static final double LEFT_Y_DEADBAND = 0.1;
         public static final double RIGHT_X_DEADBAND = 0.1;
         public static final double TURN_CONSTANT    = 6;
@@ -31,10 +36,7 @@ public final class Constants {
         public static final double WHEEL_LOCK_TIME = 10; // seconds
     }
   public static final class RobotConstants{
-    public static final double ROBOT_MASS = (148 - 20.3) * 0.453592; // 32lbs * kg per pound
-    public static final Matter CHASSIS    = new Matter(new Translation3d(0, 0,Units.inchesToMeters(8)),ROBOT_MASS);
-    public static final double LOOP_TIME  = 0.13; //s, 20ms + 110ms sprk max velocity lag
-    public static final double MAX_SPEED  = Units.feetToMeters(14.5);
+
   }
 
 
@@ -45,30 +47,36 @@ public final class Constants {
   }
 
   public static class ElevatorPIDConstants{
-    public static final int kP = 0, kI = 0, kD = 0;
+    public static final double kP = 0, kI = 0, kD = 0;
   }
 
   public static class ArmConstants{
-    public static final int MOTOR_ID = 1; 
-    public static final double MAX_ANGLE = 100.0; 
-    public static final double MIN_ANGLE = 0.0; 
+    public static final int MOTOR_ID = 25; 
+    public static final double MAX_ANGLE = 269; 
+    public static final double MIN_ANGLE = 350; 
     public static final double SPEED_LIMIT = 0.5;
+    public static final double ENCODER_OFFSET=84;
+    public static final int ENCODER_PORT=2;
+    public static final double Kp=0.0069,Ki=0,Kd=0,FF=0;
   }
 
 
   public static class ElevatorFeedforwardConstants{
-    public static final int kS = 0, kG = 0, kV = 0, kA = 0;;
+    public static final double kS = 0, kG = 0, kV =0.0021141649048626, kA = 0;;
   }
 
   public static final class HandRotaionConstants{
-    public static final int CAN_HAND_DEGREE_ID=0;
-    public static final double HAND_DGREE_SPARKMAX_Kp=0.246;
+    public static final int CAN_HAND_DEGREE_ID=21;
+    public static final double HAND_DGREE_SPARKMAX_Kp=0.0543;
     public static final double HAND_DGREE_SPARKMAX_Ki=0;
-    public static final double HAND_DGREE_SPARKMAX_Kd=0;    
+    public static final double HAND_DGREE_SPARKMAX_Kd=0;
+    public static final double HAND_DGREE_SPARKMAX_FF=0.0021141649048626;
+    public static final double HAND_DGREE_ENCODER_OFFSET=165.118504;
+    public static final int HAND_DGREE_ENCODER_PORT=0;
   } 
 
     public static final class RobotHandConstants {
-        public static final int MOTOR_ID = 17;
+        public static final int MOTOR_ID = 20;
         public static final double GRAB_POWER = 1;
         public static final double IDLE_POWER = 0.1;
         public static final double RELEASE_POWER = 0.2;
